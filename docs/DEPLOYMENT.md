@@ -8,7 +8,7 @@
 
 | Part | Host | Workflow | Trigger |
 |---|---|---|---|
-| Frontend (static `vite build` output) | GitHub Pages, served under `/<repo>/` | `.github/workflows/deploy-frontend.yml` | Push to `main` outside backend-only paths, or manual run |
+| Frontend (static `vite build` output) | GitHub Pages, served under `/<repo-lowercase>/` | `.github/workflows/deploy-frontend.yml` | Push to `main` outside backend-only paths, or manual run |
 | Backend (`server/`, Docker) | Google Cloud Run, `us-central1` | `.github/workflows/deploy-backend.yml` | Push to `main` touching `server/`, `shared/`, `Dockerfile`, `.dockerignore`, `package*.json` or the workflow, or manual run |
 
 Both workflows run `npm ci` and the tests before deploying. A commit that changes both sides runs both workflows in parallel.
@@ -103,5 +103,5 @@ On Windows Git Bash, prefix local builds that set `BASE_PATH` with `MSYS_NO_PATH
 Local production build matching the Pages deploy:
 
 ```sh
-BASE_PATH=/<repo>/ VITE_API_BASE_URL=<BACKEND_URL> npm run build
+BASE_PATH=/<repo-lowercase>/ VITE_API_BASE_URL=<BACKEND_URL> npm run build
 ```

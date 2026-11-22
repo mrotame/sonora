@@ -361,7 +361,7 @@ The project owner chose to host the backend on Google Cloud Run within the free 
 
 ## Decision
 
-- Frontend: `vite build` output published to GitHub Pages (`.github/workflows/deploy-frontend.yml`), served under `/<repo>/` (`BASE_PATH`). The backend origin is injected at build time as `VITE_API_BASE_URL` from the `BACKEND_URL` repository variable; empty means same origin (development proxy).
+- Frontend: `vite build` output published to GitHub Pages (`.github/workflows/deploy-frontend.yml`), served under `/<repo-lowercase>/` (`BASE_PATH`). The workflow lowercases the repository name because GitHub Pages normalizes project-site paths that way. The backend origin is injected at build time as `VITE_API_BASE_URL` from the `BACKEND_URL` repository variable; empty means same origin (development proxy).
 - Backend: Docker image built by Cloud Build and deployed to Cloud Run in `us-central1`, `max-instances=1` (`.github/workflows/deploy-backend.yml`). Authentication uses Workload Identity Federation, with no stored keys. `ALLOWED_ORIGIN` restricts browser reads (CORS) to the Pages origin.
 - Each workflow runs only when its side changes (path filters). Free-tier guards are in `deploy/gcp-free-tier-guards.sh`. Operational details are in `DEPLOYMENT.md`.
 
